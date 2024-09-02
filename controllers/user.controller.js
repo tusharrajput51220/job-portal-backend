@@ -1,7 +1,7 @@
 import { User } from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import getDataUri from "../utils/dataUri.js";
+import datauri from "../utils/dataUri.js";
 import cloudinary from "../utils/cloudinary.js";
 
 export const register = async (req, res) => {
@@ -16,7 +16,7 @@ export const register = async (req, res) => {
     }
     const file = req.file;
     // console.log('first', file)
-    const fileUri = getDataUri(file);
+    const fileUri = datauri(file);
     const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
     // console.log("cr", cloudResponse)
 
@@ -145,7 +145,7 @@ export const updateProfile = async (req, res) => {
     const file = req.file;
     // console.log("file:", file);
 
-    const fileUri = getDataUri(file);
+    const fileUri = datauri(file);
     // console.log("fileUri", fileUri);
     const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
     // console.log("cr", cloudResponse);
