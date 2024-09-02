@@ -14,20 +14,27 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 const corsOptions = {
-  origin: ["https://job-portal-five-rho.vercel.app/"],
-  // origin: process.env.CLIENT_URL || "http://localhost:3000",
-  credentials: true,
+  origin: [
+    "https://job-portal-five-rho.vercel.app", // Your frontend domain
+    "http://localhost:3000", // Local development domain (if needed)
+  ],
+  credentials: true, // Allow credentials (cookies) to be sent
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS", // Allow these HTTP methods
+  allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept, Authorization", // Allow these headers
 };
 app.use(cors(corsOptions));
 
+// Handle preflight requests (OPTIONS)
+app.options("*", cors(corsOptions));
+
 app.use("/api/v1", router);
 
-app.get("*", (req,res)=>{
-  res.json("Hello buddy")
-})
+app.get("*", (req, res) => {
+  res.json("Hello buddy");
+});
 
 const port = process.env.PORT || 8000;
 app.listen(port, async () => {
-  connectDB();
+  await connectDB();
   console.log(`App is listening on port ${port}`);
 });
