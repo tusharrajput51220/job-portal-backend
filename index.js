@@ -30,9 +30,9 @@ app.options("*", cors(corsOptions));
 
 app.use("/api/v1", router);
 
-app.get("*", (req, res) => {
-  res.json("Hello buddy");
-});
+// app.get("*", (req, res) => {
+//   res.json("Hello buddy");
+// });
 
 const port = process.env.PORT || 8000;
 app.listen(port, async () => {
