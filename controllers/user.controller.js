@@ -96,15 +96,19 @@ export const login = async (req, res) => {
     const token = jwt.sign(tokenData,secretKey, {
       expiresIn: "1d",
     });
-const isProduction = req.protocol === "https" || req.headers.host.includes("job-portal-five-rho.vercel.app");
 
+    // const cookieOptions = {
+    //   maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
+    //   httpOnly: true,
+    //   sameSite: "strict",
+    //   secure: process.env.NODE_ENV === "production",
+    // };
     const cookieOptions = {
-      maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
-      httpOnly: true,
-      sameSite: "strict",
-      secure: isProduction,
-      // secure: process.env.NODE_ENV === "production",
-    };
+  maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
+  httpOnly: true, // This ensures the cookie is not accessible via JavaScript
+  sameSite: "lax", // "lax" is good for local development; "strict" can cause issues with certain redirects
+  secure: false, // Disable secure flag for local testing, since it's not using HTTPS
+};
 
     res
       .status(200)
