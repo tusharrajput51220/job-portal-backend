@@ -41,7 +41,8 @@ export const register = async (req, res) => {
 
     // Generate a token for the newly created user
     const tokenData = { userId: newUser._id };
-    const token = jwt.sign(tokenData, process.env.SECRET_KEY, {
+    const token = jwt.sign(tokenData, login, {
+    // const token = jwt.sign(tokenData, process.env.SECRET_KEY, {
       expiresIn: "1d",
     });
 
