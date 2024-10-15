@@ -93,7 +93,8 @@ export const login = async (req, res) => {
       });
     }
     const tokenData = { userId: user._id };
-    const token = jwt.sign(tokenData, process.env.SECRET_KEY, {
+    const secretKey = "login";
+    const token = jwt.sign(tokenData,secretKey, {
       expiresIn: "1d",
     });
 
