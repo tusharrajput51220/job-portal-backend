@@ -96,18 +96,19 @@ export const login = async (req, res) => {
       expiresIn: "1d",
     });
 
-    // const cookieOptions = {
-    //   maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
-    //   httpOnly: true,
-    //   sameSite: "strict",
-    //   secure: process.env.NODE_ENV === "production",
-    // };
     const cookieOptions = {
       maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
-      httpOnly: true, // This ensures the cookie is not accessible via JavaScript
-      sameSite: "lax", // "lax" is good for local development; "strict" can cause issues with certain redirects
-      secure: false, // Disable secure flag for local testing, since it's not using HTTPS
+      httpOnly: true,
+      sameSite: "strict",
+      secure: true,
+      // secure: process.env.NODE_ENV === "production",
     };
+    // const cookieOptions = {
+    //   maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
+    //   httpOnly: true, // This ensures the cookie is not accessible via JavaScript
+    //   sameSite: "lax", // "lax" is good for local development; "strict" can cause issues with certain redirects
+    //   secure: false, // Disable secure flag for local testing, since it's not using HTTPS
+    // };
 
     res
       .status(200)
