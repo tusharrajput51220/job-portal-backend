@@ -16,7 +16,8 @@ app.use(cookieParser());
 const corsOptions = {
   origin: [
     "https://job-portal-five-rho.vercel.app", // Your frontend domain
-    "http://localhost:3000", // Local development domain (if needed)
+    "http://localhost:3000", 
+    "https://probable-engine-pjr9gwg5vq7ph5rr.github.dev"/// Local development domain (if needed)
   ],
   credentials: true, // Allow credentials (cookies) to be sent
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS", // Allow these HTTP methods
