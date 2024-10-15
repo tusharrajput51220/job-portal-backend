@@ -41,8 +41,7 @@ export const register = async (req, res) => {
 
     // Generate a token for the newly created user
     const tokenData = { userId: newUser._id };
-    const token = jwt.sign(tokenData, login, {
-    // const token = jwt.sign(tokenData, process.env.SECRET_KEY, {
+    const token = jwt.sign(tokenData, process.env.SECRET_KEY, {
       expiresIn: "1d",
     });
 
@@ -97,6 +96,7 @@ export const login = async (req, res) => {
     const token = jwt.sign(tokenData,secretKey, {
       expiresIn: "1d",
     });
+const isProduction = req.protocol === "https" || req.headers.host.includes("job-portal-five-rho.vercel.app");
 
     const cookieOptions = {
       maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
