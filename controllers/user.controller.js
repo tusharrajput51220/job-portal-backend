@@ -92,8 +92,7 @@ export const login = async (req, res) => {
       });
     }
     const tokenData = { userId: user._id };
-    const secretKey = "login";
-    const token = jwt.sign(tokenData,secretKey, {
+    const token = jwt.sign(tokenData, process.env.SECRET_KEY, {
       expiresIn: "1d",
     });
 
@@ -104,11 +103,11 @@ export const login = async (req, res) => {
     //   secure: process.env.NODE_ENV === "production",
     // };
     const cookieOptions = {
-  maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
-  httpOnly: true, // This ensures the cookie is not accessible via JavaScript
-  sameSite: "lax", // "lax" is good for local development; "strict" can cause issues with certain redirects
-  secure: false, // Disable secure flag for local testing, since it's not using HTTPS
-};
+      maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
+      httpOnly: true, // This ensures the cookie is not accessible via JavaScript
+      sameSite: "lax", // "lax" is good for local development; "strict" can cause issues with certain redirects
+      secure: false, // Disable secure flag for local testing, since it's not using HTTPS
+    };
 
     res
       .status(200)
