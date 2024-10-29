@@ -62,6 +62,78 @@ export const register = async (req, res) => {
   }
 };
 
+// export const login = async (req, res) => {
+//   try {
+//     const { email, password, role } = req.body;
+//     if (!email || !password || !role) {
+//       return res.status(400).json({
+//         message: "Something is missing",
+//         success: false,
+//       });
+//     }
+//     let user = await User.findOne({ email });
+//     if (!user) {
+//       return res.status(400).json({
+//         message: "Incorrect e-mail",
+//         success: false,
+//       });
+//     }
+//     const isPasswordMatch = await bcrypt.compare(password, user.password);
+//     if (!isPasswordMatch) {
+//       return res.status(400).json({
+//         message: "Incorrect password",
+//         success: false,
+//       });
+//     }
+//     if (role !== user.role) {
+//       return res.status(400).json({
+//         message: "Account doesn't exist with the current role",
+//         success: false,
+//       });
+//     }
+//     const tokenData = { userId: user._id };
+//     const token = jwt.sign(tokenData, process.env.SECRET_KEY, {
+//       expiresIn: "1d",
+//     });
+//     const isProduction = req.protocol === "https";
+
+//     // const cookieOptions = {
+//     //   maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
+//     //   httpOnly: true,
+//     //   sameSite: "strict",
+//     //   // secure: isProduction,
+//     //   secure: process.env.NODE_ENV === "production",
+//     // };
+//     const cookieOptions = {
+//       maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
+//       httpOnly: true, // This ensures the cookie is not accessible via JavaScript
+//       sameSite: "lax", // "lax" is good for local development; "strict" can cause issues with certain redirects
+//       secure: isProduction, // Disable secure flag for local testing, since it's not using HTTPS
+//     };
+
+//     res
+//       .status(200)
+//       .cookie("token", token, cookieOptions)
+//       .json({
+//         message: `Welcome back ${user.fullName}`,
+//         user: {
+//           _id: user._id,
+//           fullName: user.fullName,
+//           email: user.email,
+//           phoneNumber: user.phoneNumber,
+//           role: user.role,
+//           profile: user.profile,
+//         },
+//         success: true,
+//       });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({
+//       message: "Server error",
+//       success: false,
+//     });
+//   }
+// };
 export const login = async (req, res) => {
   try {
     const { email, password, role } = req.body;
@@ -71,6 +143,7 @@ export const login = async (req, res) => {
         success: false,
       });
     }
+
     let user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({
@@ -78,6 +151,7 @@ export const login = async (req, res) => {
         success: false,
       });
     }
+
     const isPasswordMatch = await bcrypt.compare(password, user.password);
     if (!isPasswordMatch) {
       return res.status(400).json({
@@ -85,47 +159,33 @@ export const login = async (req, res) => {
         success: false,
       });
     }
+
     if (role !== user.role) {
       return res.status(400).json({
         message: "Account doesn't exist with the current role",
         success: false,
       });
     }
+
     const tokenData = { userId: user._id };
     const token = jwt.sign(tokenData, process.env.SECRET_KEY, {
       expiresIn: "1d",
     });
-    const isProduction = req.protocol === "https";
 
-    // const cookieOptions = {
-    //   maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
-    //   httpOnly: true,
-    //   sameSite: "strict",
-    //   // secure: isProduction,
-    //   secure: process.env.NODE_ENV === "production",
-    // };
-    const cookieOptions = {
-      maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
-      httpOnly: true, // This ensures the cookie is not accessible via JavaScript
-      sameSite: "lax", // "lax" is good for local development; "strict" can cause issues with certain redirects
-      secure: isProduction, // Disable secure flag for local testing, since it's not using HTTPS
-    };
-
-    res
-      .status(200)
-      .cookie("token", token, cookieOptions)
-      .json({
-        message: `Welcome back ${user.fullName}`,
-        user: {
-          _id: user._id,
-          fullName: user.fullName,
-          email: user.email,
-          phoneNumber: user.phoneNumber,
-          role: user.role,
-          profile: user.profile,
-        },
-        success: true,
-      });
+    // Respond with the token in JSON for client-side localStorage handling
+    res.status(200).json({
+      message: `Welcome back ${user.fullName}`,
+      token, // The access token is sent in the response
+      user: {
+        _id: user._id,
+        fullName: user.fullName,
+        email: user.email,
+        phoneNumber: user.phoneNumber,
+        role: user.role,
+        profile: user.profile,
+      },
+      success: true,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({
