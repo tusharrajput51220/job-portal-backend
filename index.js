@@ -17,6 +17,7 @@ const corsOptions = {
   origin: [
     "https://job-portal-five-rho.vercel.app", // Your frontend domain
     "http://localhost:3000", 
+    "https://orange-space-trout-g4q65r5v999w2v5vq-3000.app.github.dev/"
   ],
   credentials: true, // Allow credentials (cookies) to be sent
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS", // Allow these HTTP methods
