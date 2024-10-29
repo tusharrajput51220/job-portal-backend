@@ -15,7 +15,7 @@ app.use(cookieParser());
 
 const corsOptions = {
   origin: [
-    "https://jobportal-rouge-xi.vercel.app/", // Your frontend domain
+    "https://jobportal-rouge-xi.vercel.app", // Your frontend domain
     "http://localhost:3000", 
     // "https://orange-space-trout-g4q65r5v999w2v5vq-3000.app.github.dev/"
   ],
